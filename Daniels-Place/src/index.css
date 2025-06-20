@@ -1,68 +1,106 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+@import "tailwindcss";
+@plugin "daisyui";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  --color-primaryColor: oklch(0.972 0 0deg);
+  --color-secondaryColor: oklch(0.025 0.005 268.34deg);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  --font-primary: "Geist", sans-serif;
+  --font-secondary: "inter", sans-serif;
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  --breakpoint-xs: 30rem;
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@layer utilities {
+  .nav-padding-x {
+    padding-left: 5%;
+    padding-right: 5%;
   }
-  a:hover {
-    color: #747bff;
+
+  .nav-padding-y {
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
-  button {
-    background-color: #f9f9f9;
+
+  .btnPaddingX {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .btnPaddingY {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .padding-x {
+    padding-left: 125px;
+    padding-right: 125px;
+  }
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 0 solid;
+  }
+
+  ol,
+  ul,
+  menu {
+    list-style: none;
+  }
+
+  img,
+  svg,
+  video,
+  canvas,
+  audio,
+  iframe,
+  embed,
+  object {
+    display: block;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  html,
+  body {
+    background-color: var(--color-primaryColor);
+    font-family: var(--font-primary);
+    color: var(--color-secondaryColor);
+  }
+
+  h1 {
+    font-size: 48px;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: 30px;
+    font-weight: 600;
+  }
+
+  p,
+  li {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  p {
+    font-family: var(--font-secondary);
   }
 }
