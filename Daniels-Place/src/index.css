@@ -34,11 +34,6 @@
     padding-top: 8px;
     padding-bottom: 8px;
   }
-
-  .padding-x {
-    padding-left: 125px;
-    padding-right: 125px;
-  }
 }
 
 @layer base {

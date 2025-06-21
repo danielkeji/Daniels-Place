@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <>
       <article
-        className="px-6 md:padding-x py-[50px] flex flex-col md:grid md:grid-cols-2 md:gap-2 items-center justify-between"
+        className="mx-auto max-w-7xl px-8 py-[50px] flex flex-col md:flex md:flex-row md:justify-center md:justify-items-center md:gap-[50px] items-center justify-between"
         id="home"
       >
         <div className="flex flex-col flex-nowrap gap-2 items-center justify-center text-center md:text-left">

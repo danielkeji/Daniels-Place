@@ -9,7 +9,7 @@ const Services = () => {
         </h2>
       </header>
       <main>
-        <section className="px-6 md:padding-x mt-[70px]">
+        <section className="px-8 mx-auto max-w-7xl mt-[70px]">
           <h3 className="text-center text-xl lg:text-[24px]">
             I offer a range of grooming services tailored to keep you looking
             sharp and feeling confident. Whether you need a fresh fade, a

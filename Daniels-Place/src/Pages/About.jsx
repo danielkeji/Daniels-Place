@@ -11,7 +11,7 @@ const About = () => {
           About
         </h2>
       </header>
-      <section className="mt-[25px] md:mt-[100px] px-6 md:padding-x">
+      <section className="mt-[25px] md:mt-[100px] px-8 mx-auto max-w-7xl">
         <article>
           <div className="flex flex-col gap-[40px] md:flex-row md:gap-[20px] mb-[50px] items-center justify-between">
             <h3 className="text-2xl md:text-4xl lg:text-[30px] text-center pt-10">
@@ -45,9 +45,9 @@ const About = () => {
         </article>
       </section>
 
-      <section className="px-6 md:padding-x">
+      <section className="px-8 mx-auto max-w-7xl">
         <div className="flex flex-col md:flex-row items-center justify-evenly gap-[40px] md:gap-[20px] mb-[50px]">
-          <div className="basis-1/3">
+          <div className="">
             <p className="font-bold text-[24px]">
               Whether you’re booking a quick refresh or a complete
               transformation, you can expect: <br />
@@ -61,7 +61,7 @@ const About = () => {
           </div>
           <img src={image6} className="" alt="" />
         </div>
-        <div className="hidden md:grid grid-cols-3 gap-[20px] mb-[100px]">
+        <div className="hidden md:flex md:flex-row items-center justify-evenly gap-[20px] mb-[100px]">
           <img src={image6} alt="" />
           <img src={image6} alt="" />
           <img src={image6} alt="" />

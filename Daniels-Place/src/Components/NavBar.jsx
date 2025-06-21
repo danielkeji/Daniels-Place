@@ -24,7 +24,10 @@ const NavBar = () => {
             BOOK NOW
           </span>
         </button>
+        <div>
         <HamburgerMenu tabindex={0} />
+        </div>
+        
       </nav>
     </header>
   );
