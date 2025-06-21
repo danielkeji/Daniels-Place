@@ -5,30 +5,31 @@ const Contact = () => {
   return (
     <>
       <header className="mt-[100px]">
-        <h2 className="text-center" id="contact">Contact</h2>
+        <h2 className="text-center" id="contact">
+          Contact
+        </h2>
       </header>
 
-      <section className="padding-x mt-[50px] mb-[50px]">
-        <div className="flex flex-row items-center justify-center">
+      <section className="px-3 md:padding-x mt-[50px] mb-[50px]">
+        <div className="flex flex-col-reverse md:flex-row gap-[50px] items-center justify-center">
           <article className="basis-1/2">
             <div className="relative">
               <img
                 src={cloud}
-                className="absolute top-0 h-[200px] w-[200px] z-10"
+                className="absolute top-0 h-[100px] w-[100px] md:h-[200px] md:w-[200px] z-10"
                 alt="cloud"
               />
               <img
                 src={image}
-                className="h-[500px] w-[500px] blur-sm rounded-4xl "
+                className="h-[250px] w-[250px] md:h-[500px] md:w-[500px] blur-sm rounded-4xl "
                 alt=""
               />
-              <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <h2 className="absolute text-[15px] md:text-[36px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 Get in touch: I am here to attend to your request and Questions
               </h2>
               <img
                 src={cloud}
-                className="absolute bottom-0 left-[50%] h-[200px] w-[200px] z-10"
-                alt="cloud"
+                className="absolute bottom-0 left-[50%] h-[100px] w-[100px] md:h-[200px] md:w-[200px] z-10"
               />
             </div>
           </article>
@@ -41,7 +42,7 @@ const Contact = () => {
                 </h2>
                 <form>
                   <div className="mb-4">
-                    <label className="block text-gray-800 mb-1" for="name">
+                    <label className="block text-gray-800 mb-1" htmlFor="name">
                       Your Name
                     </label>
                     <input
@@ -51,7 +52,7 @@ const Contact = () => {
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-gray-800 mb-1" for="email">
+                    <label className="block text-gray-800 mb-1" htmlFor="email">
                       Your Email
                     </label>
                     <input
@@ -63,7 +64,7 @@ const Contact = () => {
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-gray-800 mb-1" for="message">
+                    <label className="block text-gray-800 mb-1" htmlFor="message">
                       Your Message
                     </label>
                     <textarea

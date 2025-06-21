@@ -4,11 +4,11 @@ const Home = () => {
   return (
     <>
       <article
-        className="padding-x py-[50px] grid md:grid-cols-2 md:gap-2 items-center"
+        className="px-6 md:padding-x py-[50px] flex flex-col md:grid md:grid-cols-2 md:gap-2 items-center justify-between"
         id="home"
       >
-        <div className="flex flex-col flex-nowrap gap-2">
-          <h1 className="">"Because you deserve more than just a haircut"</h1>
+        <div className="flex flex-col flex-nowrap gap-2 items-center justify-center text-center md:text-left">
+          <h1 className="text-3xl md:text-4xl lg:text-[48px]">"Because you deserve more than just a haircut"</h1>
           <p className="">
             Book your next cut online and skip the wait—because great style
             shouldn’t be hard to get.

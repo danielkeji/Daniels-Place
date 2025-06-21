@@ -3,20 +3,20 @@ import image from "../images/image7.jpg";
 const Services = () => {
   return (
     <>
-      <header className="mt-[50px]">
+      <header className="mt-[100px] md:mt-[50px]">
         <h2 className="text-center" id="services">
           Services
         </h2>
       </header>
       <main>
-        <section className="padding-x mt-[70px]">
-          <h3 className="text-center text-[24px]">
+        <section className="px-6 md:padding-x mt-[70px]">
+          <h3 className="text-center text-xl lg:text-[24px]">
             I offer a range of grooming services tailored to keep you looking
             sharp and feeling confident. Whether you need a fresh fade, a
             detailed line-up, or a full grooming session, and more, I’ve got you
             covered.
           </h3>
-          <div className="grid grid-cols-2 justify-items-center mt-[150px]">
+          <div className="flex flex-col md:flex-row gap-[100px] items-center justify-center mt-[100px] md:mt-[150px]">
             <div className="">
               <div className="relative flex w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
                 <div className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600">
