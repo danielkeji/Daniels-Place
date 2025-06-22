@@ -15,20 +15,24 @@ const NavBar = () => {
           {links.map((link) => {
             return (
               <li key={link.id}>
-                {link.href?<a href={link.href}>{link.text}</a>:<Link to='/gallery'>{link.text}</Link>}
+                {link.href ? (
+                  <a href={link.href}>{link.text}</a>
+                ) : (
+                  <Link to="/gallery">{link.text}</Link>
+                )}
               </li>
             );
           })}
         </ul>
         <button className=" hidden md:flex group relative text-[17px] font-bold bg-black rounded-[0.75em] border-none cursor-pointer">
           <span className="block box-border border-[2px] border-secondaryColor rounded-[0.75em] px-[1.5em] py-[0.75em] bg-primaryColor text-secondaryColor transition-transform duration-100 ease-in-out transform translate-y-[-0.2em] group-hover:translate-y-[-0.33em] group-active:translate-y-0">
-            BOOK NOW
+            <Link to='/booking'>BOOK NOW</Link>
           </span>
         </button>
 
         <div className="dropdown dropdown-hover md:hidden">
           <div tabIndex={0} role="button" className="btn m-1">
-            <HamburgerMenu  />
+            <HamburgerMenu />
           </div>
           <ul
             tabIndex={0}
@@ -37,7 +41,11 @@ const NavBar = () => {
             {links.map((link) => {
               return (
                 <li key={link.id}>
-                  <a href={link.href}>{link.text}</a>
+                  {link.href ? (
+                    <a href={link.href}>{link.text}</a>
+                  ) : (
+                    <Link to="/gallery">{link.text}</Link>
+                  )}
                 </li>
               );
             })}
