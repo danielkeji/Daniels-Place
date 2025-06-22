@@ -1,6 +1,7 @@
 import { links } from "../navlinks";
 import image from "../images/businessLogo.svg";
 import HamburgerMenu from "./HamburgerMenu";
+import { Link } from "react-router";
 
 const NavBar = () => {
   return (
@@ -14,7 +15,7 @@ const NavBar = () => {
           {links.map((link) => {
             return (
               <li key={link.id}>
-                <a href={link.href}>{link.text}</a>
+                {link.href?<a href={link.href}>{link.text}</a>:<Link to='/gallery'>{link.text}</Link>}
               </li>
             );
           })}
@@ -24,10 +25,24 @@ const NavBar = () => {
             BOOK NOW
           </span>
         </button>
-        <div>
-        <HamburgerMenu tabindex={0} />
+
+        <div className="dropdown dropdown-hover md:hidden">
+          <div tabIndex={0} role="button" className="btn m-1">
+            <HamburgerMenu  />
+          </div>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+          >
+            {links.map((link) => {
+              return (
+                <li key={link.id}>
+                  <a href={link.href}>{link.text}</a>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-        
       </nav>
     </header>
   );
