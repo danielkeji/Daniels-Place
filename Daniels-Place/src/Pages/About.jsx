@@ -61,8 +61,7 @@ const About = () => {
           </div>
           <img src={image6} className="" alt="" />
         </div>
-        <div className="hidden md:flex md:flex-row items-center justify-evenly gap-[20px] mb-[100px]">
-          <img src={image6} alt="" />
+        <div className="hidden md:grid md:grid-cols-2 justify-items-center gap-x-[20px] mb-[100px]">
           <img src={image6} alt="" />
           <img src={image6} alt="" />
         </div>

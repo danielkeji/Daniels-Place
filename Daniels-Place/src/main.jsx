@@ -5,15 +5,23 @@ import "./index.css";
 import App from "./App.jsx";
 import Gallery from "./Pages/Gallery.jsx";
 import Booking from "./Pages/Booking.jsx";
+import Schedule from "./Pages/Schedule.jsx";
+import { ThemeProvider } from "./utils/ThemeContext.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/gallery", element: <Gallery /> },
-  {path: "/booking", element: <Booking />},
+  {
+    path: "/booking",
+    element: <Booking />,
+  },
+  { path: "/schedule", element: <Schedule /> },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </StrictMode>
 );

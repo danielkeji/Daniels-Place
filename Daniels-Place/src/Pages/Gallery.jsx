@@ -1,4 +1,5 @@
-import BackHomeBtn from "../Components/BackHomeBtn";
+import BackHomeBtn from "../Components/GenericBtn";
+import { images } from "../images";
 import image from "../images/image7.jpg";
 import { Link } from "react-router";
 
@@ -18,61 +19,27 @@ const Gallery = () => {
             and see the craft in action. Your next look might just be one scroll
             away.
           </h3>
-          <div className="flex flex-col md:flex-row gap-[100px] items-center justify-center mt-[100px] md:mt-[150px]">
-            <div className="">
-              <div className="relative flex w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-                <div className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600">
-                  <img src={image} alt="" />
-                </div>
-                <div className="p-6">
-                  <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                    Hair Cut
-                  </h5>
-                  <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
-                    Get a clean, stylish haircut tailored just for you. Whether
-                    you want a classic fade, modern trim, or bold new look, I’ve
-                    got the skills to match your style.
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-[50px]">
+            {images.map((image, index) => (
+              <div key={index} className="relative group">
+                <img
+                  src={image}
+                  className="w-full h-[400px] object-cover rounded-lg shadow-lg transition-transform duration-300 ease-in-out transform group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                  <p className="text-white text-lg font-semibold">
+                    Image {index + 1}
                   </p>
                 </div>
-                <div className="p-6 pt-0">
-                  <button
-                    data-ripple-light="true"
-                    type="button"
-                    className="select-none rounded-lg bg-secondary py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-primary shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  >
-                    Book
-                  </button>
-                </div>
               </div>
-            </div>
-            <div className="">
-              <div className="relative flex w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-                <div className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600">
-                  <img src={image} alt="" />
-                </div>
-                <div className="p-6">
-                  <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                    Hair Cut
-                  </h5>
-                  <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
-                    Get a clean, stylish haircut tailored just for you. Whether
-                    you want a classic fade, modern trim, or bold new look, I’ve
-                    got the skills to match your style.
-                  </p>
-                </div>
-                <div className="p-6 pt-0">
-                  <button
-                    data-ripple-light="true"
-                    type="button"
-                    className="select-none rounded-lg bg-secondary py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-primary shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  >
-                    Book
-                  </button>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
-          <BackHomeBtn />
+
+          <div className="flex justify-center">
+            <Link to={"/"}>
+              <BackHomeBtn text={"Home"} style={"text-primaryColor"} />
+            </Link>
+          </div>
         </section>
       </main>
     </div>

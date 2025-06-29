@@ -1,14 +1,28 @@
 import image1 from "../images/image1.jpg";
+import { useEffect } from "react";
+import { useLocation } from "react-router";
 
 const Home = () => {
+  const location = useLocation();
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
   return (
     <>
       <article
         className="mx-auto max-w-7xl px-8 py-[50px] flex flex-col md:flex md:flex-row md:justify-center md:justify-items-center md:gap-[50px] items-center justify-between"
         id="home"
       >
-        <div className="flex flex-col flex-nowrap gap-2 items-center justify-center text-center md:text-left">
-          <h1 className="text-3xl md:text-4xl lg:text-[48px]">"Because you deserve more than just a haircut"</h1>
+        <div className="flex flex-col items-center justify-center gap-2 text-center flex-nowrap md:text-left">
+          <h1 className="text-3xl md:text-4xl lg:text-[48px] text-secondaryColor font-bold">
+            "Because you deserve more than just a haircut"
+          </h1>
           <p className="">
             Book your next cut online and skip the wait—because great style
             shouldn’t be hard to get.

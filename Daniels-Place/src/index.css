@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
 @import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
 @plugin "daisyui";
+@source "../node_modules/flowbite-datepicker";
 
 @theme {
   --color-primaryColor: oklch(0.972 0 0deg);
@@ -42,6 +45,16 @@
     padding: 0;
     box-sizing: border-box;
     border: 0 solid;
+  }
+
+  :root {
+    --color-primaryColor: oklch(0.972 0 0deg);
+    --color-secondaryColor: oklch(0.025 0.005 268.34deg);
+  }
+
+  .dark {
+    --color-primaryColor: oklch(0.025 0.005 268.34deg);
+    --color-secondaryColor: oklch(0.972 0 0deg);
   }
 
   ol,

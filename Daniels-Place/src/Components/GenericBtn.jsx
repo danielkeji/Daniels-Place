@@ -1,11 +1,9 @@
-import { Link } from "react-router";
-
-export default function BackHomeBtn() {
+export default function GenericBtn({ text, style }) {
   return (
-    <button className="relative group uppercase font-black text-white my-[100px] px-4 py-3 overflow-hidden">
-      <span className="relative z-10">
-        <Link to="/">Back Home</Link>
-      </span>
+    <button
+      className={`relative group uppercase font-black ${style} my-[70px] px-4 py-3 w-[100px] overflow-hidden`}
+    >
+      <span className="relative z-10">{text}</span>
 
       {/* ::before */}
       <span
