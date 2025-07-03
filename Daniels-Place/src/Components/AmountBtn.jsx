@@ -1,11 +1,10 @@
-
 import styled from "styled-components";
 
-const AmountBtn = () => {
+const AmountBtn = ({ price }) => {
   return (
     <StyledWrapper>
       <button className="pay-btn">
-        <span className="btn-text">$1000</span>
+        <span className="btn-text">₦{price}</span>
         <div className="icon-container">
           <svg viewBox="0 0 24 24" className="icon card-icon">
             <path
