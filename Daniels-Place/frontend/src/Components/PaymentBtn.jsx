@@ -4,7 +4,27 @@ import { useState } from "react";
 const PaymentBtn = ({ email, amount }) => {
   const [loading, setLoading] = useState(false);
 
-  const handlePayment = async () => {};
+  const handlePayment = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/bookings/pay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, amount }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        window.location.href = data.paymentUrl; // Redirect to Paystack
+      } else {
+        alert("Payment failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Payment error:", err);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <StyledWrapper className="hidden md:flex">

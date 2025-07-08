@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import pkg from "body-parser";
-import rateLimit from "express-rate-limit";
+import bodyParser from "body-parser";
 import helmet from "helmet";
 import winston from "winston";
 import bookingsRouter from "./routes/bookings.js";
@@ -15,26 +15,53 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 const { json } = pkg;
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-});
+
 const logger = winston.createLogger({
   transports: [new winston.transports.Console()],
 });
 
 const app = express();
 app.use(helmet()); // Set security-related HTTP headers
-app.use(limiter);
-app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // Local frontend
+    ],
+  })
+);
 app.use(json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/bookings", bookingsRouter);
+// Webhook endpoint
+app.post("/api/paystack/webhook", async (req, res) => {
+  const event = req.body;
+  console.log("Webhook event:", event); // Debug
 
-// Error handler should be last
-app.use((err, req, res, next) => {
-  logger.error(err.stack);
-  res.status(500).send("Something broke!");
+  if (event.event === "charge.success") {
+    const reference = event.data.reference;
+    try {
+      // Verify payment (optional, since Paystack already confirmed)
+      const response = await axios.get(
+        `https://api.paystack.co/transaction/verify/${reference}`,
+        { headers: { Authorization: `Bearer ${PAYSTACK_SECRET_KEY}` } }
+      );
+
+      if (response.data.data.status === "success") {
+        // Update booking and send email (use confirmBooking logic)
+        await Booking.findOneAndUpdate(
+          { email: response.data.data.customer.email },
+          { confirmed: true, paymentReference: reference }
+        );
+        console.log("Booking confirmed:", reference);
+      }
+    } catch (err) {
+      console.error("Webhook error:", err);
+    }
+  }
+  res.sendStatus(200); // Always respond to Paystack
 });
 
 const PORT = 5016;

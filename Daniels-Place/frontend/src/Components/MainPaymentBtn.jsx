@@ -4,7 +4,30 @@ import { useState } from "react";
 
 const MainPaymentBtn = ({ email, amount }) => {
   const [loading, setLoading] = useState(false);
-  const handlePayment = async () => {}
+  const API_URL = import.meta.env.PROD
+    ? "https://daniels-place-api.onrender.com/api" // Deployed backend
+    : "http://localhost:5016/api";     
+  const handlePayment = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/bookings/pay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, amount }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        window.location.href = data.paymentUrl; // Redirect to Paystack
+      } else {
+        alert("Payment failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Payment error:", err);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <StyledWrapper>
