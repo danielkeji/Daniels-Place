@@ -4,8 +4,10 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import "./index.css";
 import App from "./App.jsx";
 import { Gallery, Booking, Schedule, Error } from "./Pages";
+import PaymentSuccess from "./Pages/paymentSuccess.jsx";
 import { ThemeProvider } from "./utils/ThemeContext.jsx";
 import { BookingProvider } from "./utils/BookingContext.jsx";
+
 
 const router = createBrowserRouter([
   { path: "/", element: <App />, errorElement: <Error /> },
@@ -16,6 +18,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
   },
   { path: "/schedule", element: <Schedule />, errorElement: <Error /> },
+  {path: "/payment-success", element: <PaymentSuccess />, errorElement: <Error />},
 ]);
 
 createRoot(document.getElementById("root")).render(

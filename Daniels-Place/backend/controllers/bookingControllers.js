@@ -71,6 +71,7 @@ export const generatePaymentLink = async (req, res) => {
       {
         email,
         amount: amount * 100, // amount in kobo
+        callback_url: 'localhost:5173/payment-success', // Replace with your frontend URL
         metadata: {
           custom_fields: [
             {
@@ -120,12 +121,12 @@ export const generatePaymentLink = async (req, res) => {
   }
 };
 
+// Add to bookingControllers.js
 export const confirmBooking = async (req, res) => {
   const { reference } = req.body;
 
   try {
-    // Verify payment with Paystack
-    const paystackRes = await axios.get(
+    const verifyRes = await axios.get(
       `https://api.paystack.co/transaction/verify/${reference}`,
       {
         headers: {
@@ -134,52 +135,57 @@ export const confirmBooking = async (req, res) => {
       }
     );
 
-    if (paystackRes.data.data.status !== "success") {
+    const data = verifyRes.data;
+    if (data.status && data.data.status === "success") {
+      const email = data.data.customer.email;
+
+      const booking = await Booking.findOneAndUpdate(
+        { email, confirmed: false },
+        {
+          confirmed: true,
+          paymentReference: reference,
+        },
+        { new: true }
+      );
+
+      if (!booking) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Booking not found" });
+      }
+
+      // Send email
+      const transporter = nodemailer.createTransport({
+        service: "gmail", // Or your email service
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+
+      await transporter.sendMail({
+        from: `"Your Brand" <${process.env.EMAIL_USER}>`,
+        to: booking.email,
+        subject: "Booking Confirmed!",
+        html: `<p>Hello ${booking.firstName},</p>
+          <p>Your booking for ${booking.date} at ${
+          booking.time?.label || booking.time
+        } has been confirmed. See you then!</p>`,
+      });
+
+      return res.json({
+        success: true,
+        message: "Payment verified and booking confirmed",
+        booking,
+      });
+    } else {
       return res
         .status(400)
-        .json({ success: false, message: "Payment failed" });
+        .json({ success: false, message: "Payment not successful" });
     }
-
-    // Update booking in database
-    const booking = await Booking.findOneAndUpdate(
-      { email: paystackRes.data.data.customer.email },
-      { confirmed: true, paymentReference: reference },
-      { new: true }
-    );
-
-    if (!booking) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Booking not found" });
-    }
-
-    // Send confirmation email (using Nodemailer)
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
-
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: booking.email,
-      subject: "Booking Confirmed!",
-      html: `
-        <h1>Your booking is confirmed!</h1>
-        <p>Date: ${booking.date}</p>
-        <p>Time: ${booking.time}</p>
-        <p>Address: ${booking.address}</p>
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    res.json({ success: true, booking });
   } catch (err) {
-    console.error("Confirmation error:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error("Verification error:", err.response?.data || err.message);
+    res.status(500).json({ success: false, message: "Verification failed" });
   }
 };
 

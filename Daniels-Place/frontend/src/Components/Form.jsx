@@ -71,11 +71,14 @@ const Form = ({ onBookingSaved }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5016/api/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://daniels-place-api.onrender.com/api/bookings",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await response.json();
       if (data.success) {
         setIsSubmitted(true);
