@@ -7,25 +7,16 @@ import imageDark from "../images/businessLogoDark.svg";
 import ThemeImage from "../Components/ThemeImage";
 import { Link } from "react-router";
 import { services } from "../bookingservices";
-import { useState, useEffect } from "react";
-
-const getServiceFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem("selectedService")) || [];
-};
+import { useState } from "react";
+import { useBooking } from "../utils/BookingContext.jsx";
 
 const Booking = () => {
-  const [selectedService, setSelectedService] = useState(
-    getServiceFromLocalStorage
-  );
+  const { selectedService, setSelectedService } = useBooking();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const clearAllSelections = () => {
     setShowConfirmModal(true);
   };
-
-  useEffect(() => {
-    localStorage.setItem("selectedService", JSON.stringify(selectedService));
-  }, [selectedService]);
 
   const handlePickService = (service, isPicked) => {
     if (isPicked) {

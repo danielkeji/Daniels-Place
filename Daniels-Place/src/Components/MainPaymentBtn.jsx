@@ -1,12 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { useState } from "react";
 
-const MainPaymentBtn = () => {
+const MainPaymentBtn = ({ email, amount }) => {
+  const [loading, setLoading] = useState(false);
+  const handlePayment = async () => {}
+
   return (
     <StyledWrapper>
-      <div data-tooltip="Price:-$20" className="button">
-        <div className="button-wrapper">
-          <div className="text">Pay</div>
+      <div data-tooltip={`Price:-₦${amount}`} className="button">
+        <div className="button-wrapper" onClick={handlePayment}>
+          <div className="text">{loading ? "Processing ..." : "Pay"}</div>
           <span className="icon">
             <svg
               viewBox="0 0 16 16"

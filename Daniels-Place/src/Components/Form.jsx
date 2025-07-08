@@ -4,15 +4,23 @@ import { useState } from "react";
 
 import styled from "styled-components";
 
-const Form = () => {
+const Form = ({ onBookingSaved }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
     address: "",
     date: new Date(),
     time: "",
   });
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const validatePhone = (phone) => /^\d{10,15}$/.test(phone.replace(/\D/g, "")); // Accepts 10-15 digits
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,81 +44,141 @@ const Form = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add your form submission logic here
+    setIsSubmitting(true);
+    // Validation
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.address ||
+      !formData.date ||
+      !formData.time
+    ) {
+      alert("All fields are required.");
+      setIsSubmitting(false);
+      return;
+    }
+    if (!validateEmail(formData.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (!validatePhone(formData.phone)) {
+      alert("Please enter a valid phone number (10-15 digits).");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5016/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setIsSubmitted(true);
+        localStorage.setItem("bookingEmail", formData.email);
+        if (onBookingSaved) onBookingSaved(formData);
+        alert("Booking saved! Click the payment button to pay.");
+        localStorage.removeItem("bookingEmail");
+      } else {
+        alert("Error saving booking");
+        setIsSubmitting(false);
+      }
+    } catch (error) {
+      setError("Something went wrong. Please try again later.");
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <StyledWrapper>
-      <form className="form" onSubmit={handleSubmit}>
-        <p className="title">Appointment </p>
-        <p className="message">Book an appointment with me </p>
-        <div className="flex">
+    <>
+      {error && <div className="p-2 text-red-700 bg-red-100">{error}</div>}
+      <StyledWrapper>
+        <form className="form" onSubmit={handleSubmit}>
+          <p className="title">Appointment </p>
+          <p className="message">Book an appointment with me </p>
+          <div className="flex">
+            <label>
+              <input
+                required
+                type="text"
+                className="input"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleInputChange}
+              />
+              <span>Firstname</span>
+            </label>
+            <label>
+              <input
+                required
+                type="text"
+                className="input"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleInputChange}
+              />
+              <span>Lastname</span>
+            </label>
+          </div>
           <label>
             <input
               required
-              type="text"
+              type="email"
               className="input"
-              name="firstName"
-              value={formData.firstName}
+              name="email"
+              value={formData.email}
               onChange={handleInputChange}
             />
-            <span>Firstname</span>
+            <span>Email</span>
+          </label>
+          <label>
+            <input
+              required
+              type="tel"
+              className="input"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              pattern="\d{10,15}"
+              maxLength={15}
+              minLength={10}
+            />
+            <span>Phone Number</span>
           </label>
           <label>
             <input
               required
               type="text"
               className="input"
-              name="lastName"
-              value={formData.lastName}
+              name="address"
+              value={formData.address}
               onChange={handleInputChange}
             />
-            <span>Lastname</span>
+            <span>Address</span>
           </label>
-        </div>
-        <label>
-          <input
-            required
-            type="email"
-            className="input"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
+          <Datepicker
+            required={true}
+            value={formData.date}
+            onChange={handleDateChange}
+            minDate={new Date()}
           />
-          <span>Email</span>
-        </label>
-        <label>
-          <input
-            required
-            type="text"
-            className="input"
-            name="address"
-            value={formData.address}
-            onChange={handleInputChange}
+          <TimeInput
+            isRequired
+            label="pick time"
+            className="time-input"
+            value={formData.time}
+            onChange={handleTimeChange}
           />
-          <span>Address</span>
-        </label>
-        <Datepicker
-          required={true}
-          value={formData.date}
-          onChange={handleDateChange}
-          minDate={new Date()}
-        />
-        <TimeInput
-          isRequired
-          label="pick time"
-          className="time-input"
-          value={formData.time}
-          onChange={handleTimeChange}
-        />
-        <button type="submit" className="submit">
-          Submit
-        </button>
-      </form>
-    </StyledWrapper>
+          <button type="submit" className="submit" disabled={isSubmitting || isSubmitted}>
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </button>
+        </form>
+      </StyledWrapper>
+    </>
   );
 };
 
@@ -124,6 +192,7 @@ const StyledWrapper = styled.div`
     padding: 20px;
     border-radius: 20px;
     position: relative;
+    color: black;
   }
 
   .title {
@@ -200,7 +269,7 @@ const StyledWrapper = styled.div`
     position: absolute;
     left: 10px;
     top: 15px;
-    color: grey;
+    color: gray;
     font-size: 0.9em;
     cursor: text;
     transition: 0.3s ease;

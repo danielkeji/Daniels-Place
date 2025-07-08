@@ -6,8 +6,19 @@ import imageLight from "../images/businessLogo.svg";
 import imageDark from "../images/businessLogoDark.svg";
 import PaymentBtn from "../Components/PaymentBtn";
 import MainPaymentBtn from "../Components/MainPaymentBtn";
+import { useBooking } from "../utils/BookingContext";
+import { useState } from "react";
 
 const Schedule = () => {
+  const [bookingData, setBookingData] = useState(null);
+  const { selectedService } = useBooking();
+  const amount = selectedService.reduce((total, service) => {
+    const price = parseFloat(service.price.replace(/₦/g, "").replace(/,/g, ""));
+    return total + (isNaN(price) ? 0 : price);
+  }, 0);
+
+  
+
   return (
     <div className="relative h-full">
       <nav className="absolute top-0 left-0 z-10 flex items-center justify-between w-full px-6 py-4 mx-auto md:px-8">
@@ -27,7 +38,9 @@ const Schedule = () => {
               Contact Me
             </Link>
           </span>
-          <PaymentBtn />
+          {bookingData && (
+            <PaymentBtn email={bookingData.email} amount={amount} />
+          )}
         </div>
       </nav>
       <div className="flex">
@@ -38,10 +51,12 @@ const Schedule = () => {
             </h2>
           </header>
           <main className="flex items-center justify-center mt-[70px]">
-            <Form />
+            <Form onBookingSaved={setBookingData} />
           </main>
           <div className="flex items-center justify-center mt-[50px] mb-[40px]">
-            <MainPaymentBtn />
+            {bookingData && (
+              <MainPaymentBtn email={bookingData.email} amount={amount} />
+            )}
           </div>
         </section>
         <div className="hidden md:flex md:basis-1/2">
